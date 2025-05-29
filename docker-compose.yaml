@@ -1,0 +1,20 @@
+services:
+  oracle-db:
+    image: gvenzl/oracle-xe:21.3.0
+    container_name: oracle_container_currency
+    platform: linux/amd64   # <- bu sətri əlavə et
+    ports:
+      - "1521:1521"
+    environment:
+      ORACLE_PASSWORD: j@vacefer2005
+      ORACLE_DATABASE: user_db
+    volumes:
+      - user_db:/opt/oracle/oradata
+
+  adminer:
+    image: adminer:4.8.1
+    ports:
+      - '1260:8080'
+
+volumes:
+  user_db:
