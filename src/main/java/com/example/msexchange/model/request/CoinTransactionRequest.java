@@ -13,8 +13,8 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = PRIVATE)
-public class CoinPurchaseRequest {
-    String name;
+public class CoinTransactionRequest {
+    String coinName;
     Long userId;
     BigDecimal coinQuantity;
 }

@@ -5,8 +5,7 @@ import com.example.msexchange.dao.repository.PaymentRepository;
 import com.example.msexchange.mapper.PaymentMapper;
 import com.example.msexchange.model.enums.PaymentStatus;
 import com.example.msexchange.model.request.BalanceUpdateDto;
-import com.example.msexchange.model.request.CoinPurchaseRequest;
-import com.example.msexchange.model.request.CoinSellRequest;
+import com.example.msexchange.model.request.CoinTransactionRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
@@ -37,16 +36,16 @@ public class PaymentService {
         balanceService.increaseBalance(user, balanceUpdateDto.getAmount());
     }
     @Transactional
-    public void purchaseCoin(CoinPurchaseRequest coinPurchaseRequest){
-        coinBalanceService.topUpCoinBalance(coinPurchaseRequest);
+    public void purchaseCoin(CoinTransactionRequest coinTransactionRequest){
+        coinBalanceService.topUpCoinBalance(coinTransactionRequest);
     }
     @Transactional
-    public void sellCoin(CoinSellRequest coinSellRequest){
-        coinBalanceService.decreaseCoinBalance(coinSellRequest);
+    public void sellCoin(CoinTransactionRequest coinTransactionRequest){
+        coinBalanceService.decreaseCoinBalance(coinTransactionRequest);
     }
 
 
-    public BigDecimal calculateTotalPrice(CoinPurchaseRequest coinPurchaseRequest){
+    public BigDecimal calculateTotalPrice(CoinTransactionRequest coinTransactionRequest){
         return null;
     }
 }

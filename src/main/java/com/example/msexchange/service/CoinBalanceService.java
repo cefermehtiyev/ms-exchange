@@ -5,19 +5,14 @@ import com.example.msexchange.dao.entity.UserEntity;
 import com.example.msexchange.dao.repository.CoinBalanceRepository;
 import com.example.msexchange.exception.ErrorMessage;
 import com.example.msexchange.exception.NotFoundException;
-import com.example.msexchange.mapper.BalanceMapper;
 import com.example.msexchange.mapper.CoinBalanceMapper;
-import com.example.msexchange.model.enums.PaymentStatus;
-import com.example.msexchange.model.request.CoinPurchaseRequest;
-import com.example.msexchange.model.request.CoinSellRequest;
+import com.example.msexchange.model.request.CoinTransactionRequest;
 import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 import static com.example.msexchange.model.enums.PaymentStatus.BUY_COIN;
 import static com.example.msexchange.model.enums.PaymentStatus.SELL_COIN;
@@ -46,27 +41,27 @@ public class CoinBalanceService {
         this.paymentService = paymentService;
     }
 
-    public void topUpCoinBalance(CoinPurchaseRequest purchaseRequest) {
-        var totalPrice = calculateTotalPrice(purchaseRequest.getName(), purchaseRequest.getCoinQuantity());
-        var user = userService.getUserEntity(purchaseRequest.getUserId());
-        var coinBalance = coinBalanceRepository.findByNameAndUser(purchaseRequest.getName(), user)
+    public void topUpCoinBalance(CoinTransactionRequest transactionRequest) {
+        var totalPrice = calculateTotalPrice(transactionRequest.getCoinName(), transactionRequest.getCoinQuantity());
+        var user = userService.getUserEntity(transactionRequest.getUserId());
+        var coinBalance = coinBalanceRepository.findByNameAndUser(transactionRequest.getCoinName(), user)
                 .map(coinBalanceEntity -> {
-                            increaseCoinQuantity(coinBalanceEntity, purchaseRequest.getCoinQuantity());
+                            increaseCoinQuantity(coinBalanceEntity, transactionRequest.getCoinQuantity());
                             return coinBalanceEntity;
                         }
                 )
-                .orElseGet(() -> coinBalanceMapper.toCoinBalanceEntity(purchaseRequest.getName(), purchaseRequest.getCoinQuantity(), user));
+                .orElseGet(() -> coinBalanceMapper.toCoinBalanceEntity(transactionRequest.getCoinName(), transactionRequest.getCoinQuantity(), user));
 
         balanceService.decreaseBalance(user, totalPrice);
         coinBalanceRepository.save(coinBalance);
         paymentService.recordBalanceChange(user, totalPrice, BUY_COIN);
     }
 
-    public void decreaseCoinBalance(CoinSellRequest coinSellRequest) {
-        var user = userService.getUserEntity(coinSellRequest.getUserId());
-        var coinBalance = findCoinBalanceEntity(coinSellRequest.getCoinName(), user);
-        deductFromCoinBalance(coinBalance, coinSellRequest.getCoinQuantity());
-        var totalPrice = calculateTotalPrice(coinSellRequest.getCoinName(), coinSellRequest.getCoinQuantity());
+    public void decreaseCoinBalance(CoinTransactionRequest transactionRequest) {
+        var user = userService.getUserEntity(transactionRequest.getUserId());
+        var coinBalance = findCoinBalanceEntity(transactionRequest.getCoinName(), user);
+        deductFromCoinBalance(coinBalance, transactionRequest.getCoinQuantity());
+        var totalPrice = calculateTotalPrice(transactionRequest.getCoinName(), transactionRequest.getCoinQuantity());
         balanceService.increaseBalance(user, totalPrice);
         coinBalanceRepository.save(coinBalance);
         paymentService.recordBalanceChange(user, totalPrice, SELL_COIN);

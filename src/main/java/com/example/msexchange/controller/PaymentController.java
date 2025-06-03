@@ -2,8 +2,7 @@ package com.example.msexchange.controller;
 
 import com.example.msexchange.model.request.BalanceUpdateDto;
 
-import com.example.msexchange.model.request.CoinPurchaseRequest;
-import com.example.msexchange.model.request.CoinSellRequest;
+import com.example.msexchange.model.request.CoinTransactionRequest;
 import com.example.msexchange.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -26,18 +25,18 @@ public class PaymentController {
     }
 
     @PostMapping("/purchase-coin")
-    public void purchaseCoin(@RequestBody CoinPurchaseRequest coinPurchaseRequest){
-        paymentService.purchaseCoin(coinPurchaseRequest);
+    public void purchaseCoin(@RequestBody CoinTransactionRequest coinTransactionRequest){
+        paymentService.purchaseCoin(coinTransactionRequest);
     }
 
     @PostMapping("/sell-coin")
-    public void sellCoin(@RequestBody CoinSellRequest coinSellRequest){
+    public void sellCoin(@RequestBody CoinTransactionRequest coinSellRequest){
         paymentService.sellCoin(coinSellRequest);
     }
 
     @GetMapping
-    public BigDecimal getTotalPrice(@RequestBody CoinPurchaseRequest coinPurchaseRequest){
-        return paymentService.calculateTotalPrice(coinPurchaseRequest);
+    public BigDecimal getTotalPrice(@RequestBody CoinTransactionRequest coinTransactionRequest){
+        return paymentService.calculateTotalPrice(coinTransactionRequest);
     }
 
 
