@@ -2,10 +2,9 @@ package com.example.msexchange.controller;
 
 import com.example.msexchange.model.request.PriceAlertRequest;
 import com.example.msexchange.service.PriceAlertService;
-import lombok.AccessLevel;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -20,7 +19,7 @@ public class PriceAlertController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public void createPriceAlert(@RequestBody PriceAlertRequest priceAlertRequest){
+    public void createPriceAlert(@Valid @RequestBody PriceAlertRequest priceAlertRequest){
         priceAlertService.createPriceAlert(priceAlertRequest);
     }
 }

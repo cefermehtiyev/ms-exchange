@@ -3,6 +3,7 @@ package com.example.msexchange.controller;
 import com.example.msexchange.model.repsone.UserResponse;
 import com.example.msexchange.model.request.UserRequest;
 import com.example.msexchange.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ public class UserController {
     @PostMapping
     @ResponseStatus(CREATED)
     @PreAuthorize("hasRole('ADMIN')")
-    public void registerUser(@RequestBody UserRequest userRequest){
+    public void registerUser(@Valid @RequestBody UserRequest userRequest){
         userService.registerUser(userRequest);
     }
 
@@ -35,7 +36,7 @@ public class UserController {
     }
 
     @PutMapping("{id}")
-    public void updateUser(@PathVariable Long id,@RequestBody UserRequest userRequest){
+    public void updateUser(@PathVariable Long id,@Valid @RequestBody UserRequest userRequest){
         userService.updateUser(id, userRequest);
     }
 }
