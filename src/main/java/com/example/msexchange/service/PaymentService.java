@@ -3,6 +3,7 @@ package com.example.msexchange.service;
 import com.example.msexchange.dao.entity.UserEntity;
 import com.example.msexchange.dao.repository.PaymentRepository;
 import com.example.msexchange.mapper.PaymentMapper;
+import com.example.msexchange.model.enums.Currency;
 import com.example.msexchange.model.enums.PaymentStatus;
 import com.example.msexchange.model.request.BalanceUpdateDto;
 import com.example.msexchange.model.request.CoinTransactionRequest;
@@ -25,8 +26,8 @@ public class PaymentService {
     PaymentMapper paymentMapper;
     PaymentRepository paymentRepository;
 
-    public void recordBalanceChange(UserEntity user, BigDecimal amount, PaymentStatus paymentStatus){
-        var paymentEntity = paymentMapper.toPaymentEntity(amount, user, paymentStatus);
+    public void recordBalanceChange(UserEntity user, BigDecimal amount, PaymentStatus paymentStatus,Currency currency){
+        var paymentEntity = paymentMapper.toPaymentEntity(amount, user, paymentStatus, currency);
         paymentRepository.save(paymentEntity);
     }
 

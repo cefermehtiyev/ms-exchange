@@ -2,6 +2,7 @@ package com.example.msexchange.mapper;
 
 import com.example.msexchange.dao.entity.PaymentEntity;
 import com.example.msexchange.dao.entity.UserEntity;
+import com.example.msexchange.model.enums.Currency;
 import com.example.msexchange.model.enums.PaymentStatus;
 import com.example.msexchange.model.request.BalanceUpdateDto;
 import org.mapstruct.Mapper;
@@ -13,8 +14,9 @@ import java.math.BigDecimal;
 public interface PaymentMapper {
 
     @Mapping(target = "user", source = "user")
+    @Mapping(target = "currency", source = "currency")
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
-    PaymentEntity toPaymentEntity(BigDecimal amount, UserEntity user, PaymentStatus paymentStatus);
+    PaymentEntity toPaymentEntity(BigDecimal amount, UserEntity user, PaymentStatus paymentStatus, Currency currency);
 }

@@ -1,6 +1,7 @@
 package com.example.msexchange.dao.entity;
 
 
+import com.example.msexchange.model.enums.Currency;
 import com.example.msexchange.model.enums.PaymentStatus;
 import com.example.msexchange.service.PaymentService;
 import jakarta.persistence.*;
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static jakarta.persistence.CascadeType.MERGE;
+import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PRIVATE;
@@ -31,10 +33,16 @@ public class PaymentEntity {
     @GeneratedValue(strategy = IDENTITY)
     Long id;
     BigDecimal amount;
-    @Enumerated(EnumType.STRING)
+
+    @Enumerated(STRING)
+    Currency currency;
+
+    @Enumerated(STRING)
     PaymentStatus paymentStatus;
+
     @CreationTimestamp
     LocalDateTime createdAt;
+
     @UpdateTimestamp
     LocalDateTime updatedAt;
 

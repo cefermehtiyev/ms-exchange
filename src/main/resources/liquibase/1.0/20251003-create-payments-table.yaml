@@ -15,7 +15,12 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: amount
-                  type: NUMERIC(19, 8)
+                  type: NUMERIC(19, 10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: currency
+                  type: VARCHAR(16)
                   constraints:
                     nullable: false
               - column:

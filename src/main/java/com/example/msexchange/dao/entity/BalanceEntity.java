@@ -1,5 +1,6 @@
 package com.example.msexchange.dao.entity;
 
+import com.example.msexchange.model.enums.Currency;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 
 import static jakarta.persistence.CascadeType.MERGE;
 import static jakarta.persistence.CascadeType.PERSIST;
+import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PRIVATE;
 
@@ -28,6 +30,8 @@ public class BalanceEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     BigDecimal balance;
+    @Enumerated(STRING)
+    Currency currency;
     @CreationTimestamp
     LocalDateTime createdAt;
     @UpdateTimestamp

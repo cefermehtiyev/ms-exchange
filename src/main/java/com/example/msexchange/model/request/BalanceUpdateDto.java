@@ -16,4 +16,5 @@ import static lombok.AccessLevel.PRIVATE;
 public class BalanceUpdateDto {
     Long userId;
     BigDecimal amount;
+
 }

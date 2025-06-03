@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 @Service
 @RequiredArgsConstructor
 public class CurrencyService {
@@ -21,7 +23,12 @@ public class CurrencyService {
     public CurrencyResponse getAllExchange(String baseCurrency) {
         var currencyRateApiResponse = currencyClient.getExchangeRates(apiKey, baseCurrency);
         return currencyMapper.toCurrencyResponse(currencyRateApiResponse);
-
     }
+
+    public BigDecimal getExchangeRate(String baseCurrency, String targetCurrency){
+        var allCurrency = getAllExchange(baseCurrency);
+        return allCurrency.getConversionRates().get(targetCurrency);
+    }
+
 
 }

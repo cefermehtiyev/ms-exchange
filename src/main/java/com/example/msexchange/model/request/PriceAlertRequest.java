@@ -1,9 +1,6 @@
 package com.example.msexchange.model.request;
 
 import com.example.msexchange.model.enums.AlertAction;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

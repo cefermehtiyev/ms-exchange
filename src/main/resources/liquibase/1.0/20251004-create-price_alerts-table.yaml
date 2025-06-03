@@ -25,7 +25,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: target_price
-                  type: NUMERIC(19,8)
+                  type: NUMERIC(19,10)
                   constraints:
                     nullable: false
               - column:

@@ -54,7 +54,7 @@ public class CoinBalanceService {
 
         balanceService.decreaseBalance(user, totalPrice);
         coinBalanceRepository.save(coinBalance);
-        paymentService.recordBalanceChange(user, totalPrice, BUY_COIN);
+        paymentService.recordBalanceChange(user, totalPrice, BUY_COIN, user.getBalanceEntity().getCurrency());
     }
 
     public void decreaseCoinBalance(CoinTransactionRequest transactionRequest) {
@@ -64,7 +64,7 @@ public class CoinBalanceService {
         var totalPrice = calculateTotalPrice(transactionRequest.getCoinName(), transactionRequest.getCoinQuantity());
         balanceService.increaseBalance(user, totalPrice);
         coinBalanceRepository.save(coinBalance);
-        paymentService.recordBalanceChange(user, totalPrice, SELL_COIN);
+        paymentService.recordBalanceChange(user, totalPrice, SELL_COIN, user.getBalanceEntity().getCurrency());
     }
 
     private void deductFromCoinBalance(CoinBalanceEntity coinBalanceEntity, BigDecimal deductQuantity) {

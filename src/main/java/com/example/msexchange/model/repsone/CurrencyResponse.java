@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 @Data
@@ -18,5 +19,5 @@ public class CurrencyResponse {
     private String timeLastUpdateUtc;
     private String timeNextUpdateUtc;
     private String currency;
-    private Map<String, Double> conversionRates;
+    private Map<String, BigDecimal> conversionRates;
 }
