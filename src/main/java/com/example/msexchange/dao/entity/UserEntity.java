@@ -1,13 +1,20 @@
 package com.example.msexchange.dao.entity;
 
 import com.example.msexchange.model.enums.UserRole;
+
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
+import static jakarta.persistence.CascadeType.*;
 import static jakarta.persistence.EnumType.STRING;
+import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PRIVATE;
 
@@ -27,6 +34,30 @@ public class UserEntity {
     String password;
     @Enumerated(STRING)
     UserRole role;
+    @CreationTimestamp
+    LocalDateTime createdAt;
+    @UpdateTimestamp
+    LocalDateTime updatedAt;
+
+    @OneToOne(
+            cascade = {PERSIST, MERGE, REMOVE},
+            mappedBy = "user"
+    )
+    BalanceEntity balanceEntity;
+
+    @OneToOne(
+            cascade = {PERSIST, MERGE, REMOVE},
+            mappedBy = "user"
+    )
+    CoinBalanceEntity coinBalanceEntity;
+
+    @OneToMany(
+            cascade = {PERSIST, MERGE, REMOVE},
+            mappedBy = "user"
+    )
+    List<PriceAlertEntity> priceAlertEntity;
+
+
 
     @Override
     public boolean equals(Object o) {

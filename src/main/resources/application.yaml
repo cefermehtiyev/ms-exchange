@@ -6,16 +6,24 @@ server:
  port: 8080
 exchange:
  api:
-  key: 25ebb769be3d3df73e050726
+  key: ac4a30e3c88d185e89824bcc
+coin:
+ api:
+  key: 1c02e3d3-263c-46f4-8014-3a48e6701dd6
 
 spring:
  datasource:
   url: jdbc:oracle:thin:@localhost:1521:xe
-  username: system
+  username: EXCHANGE
   password: j@vacefer2005
   driver-class-name: oracle.jdbc.OracleDriver
  jpa:
   hibernate:
    ddl-auto: validate
+ liquibase:
+  change-log: classpath:liquibase/changelog-master.yaml
+  enabled: true
+
+
 
 

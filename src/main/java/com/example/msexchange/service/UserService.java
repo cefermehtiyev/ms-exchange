@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,21 +22,25 @@ import static lombok.AccessLevel.PRIVATE;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = PRIVATE, makeFinal = true)
-public class UserService  {
+public class UserService {
 
     UserRepository userRepository;
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
+    BalanceService balanceService;
 
-    public void registerUser(UserRequest userRequest){
+    @Transactional
+    public void registerUser(UserRequest userRequest) {
         ifUserExistThrowException(userRequest.getUserName());
         userRequest.setPassword(buildPasswordEncoder(userRequest.getPassword()));
-        userRepository.save(userMapper.toUserEntity(userRequest,""));
+        var userEntity = userMapper.toUserEntity(userRequest);
+        userRepository.save(userEntity);
+        balanceService.createBalance(userEntity);
     }
 
-    public void updateUser(Long id, UserRequest userRequest){
+    public void updateUser(Long id, UserRequest userRequest) {
         var userEntity = findById(id);
-        if(!userEntity.getUserName().equals(userRequest.getUserName())){
+        if (!userEntity.getUserName().equals(userRequest.getUserName())) {
             ifUserExistThrowException(userRequest.getUserName());
         }
         userRequest.setPassword(buildPasswordEncoder(userRequest.getPassword()));
@@ -43,13 +48,16 @@ public class UserService  {
         userRepository.save(userEntity);
     }
 
-    private void ifUserExistThrowException(String userName){
-        if (existsByUserName(userName)){
+    private void ifUserExistThrowException(String userName) {
+        if (existsByUserName(userName)) {
             throw new AlreadyExistException(USER_ALREADY_EXCEPTION.getMessage(), 409);
         }
     }
+    public UserEntity getUserEntity(Long id){
+        return findById(id);
+    }
 
-    public List<UserResponse> getAllUsers(){
+    public List<UserResponse> getAllUsers() {
         return userRepository.findAll().stream().map(userMapper::toUserResponse).toList();
     }
 
@@ -57,16 +65,16 @@ public class UserService  {
         return passwordEncoder.encode(password);
     }
 
-    private UserEntity findById(Long id){
+    private UserEntity findById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(
                         () -> new NotFoundException(ErrorMessage.USER_NOT_FOUND.getMessage(), 404)
                 );
     }
 
-    public boolean existsByUserName(String userName){
+    public boolean existsByUserName(String userName) {
         return userRepository.existsByUserName(userName);
     }
-    
+
 }
 
