@@ -1,8 +1,6 @@
 package com.example.msexchange.service;
 
 import com.example.msexchange.client.CoinMarketClient;
-import com.example.msexchange.criteria.CoinCriteria;
-import com.example.msexchange.criteria.PageCriteria;
 import com.example.msexchange.mapper.CoinMapper;
 import com.example.msexchange.model.repsone.coin.CoinResponse;
 import lombok.RequiredArgsConstructor;

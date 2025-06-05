@@ -4,6 +4,7 @@ import com.example.msexchange.dao.entity.CoinBalanceEntity;
 import com.example.msexchange.dao.entity.UserEntity;
 import com.example.msexchange.dao.repository.CoinBalanceRepository;
 import com.example.msexchange.exception.ErrorMessage;
+import com.example.msexchange.exception.InsufficientBalanceException;
 import com.example.msexchange.exception.NotFoundException;
 import com.example.msexchange.mapper.CoinBalanceMapper;
 import com.example.msexchange.model.request.CoinTransactionRequest;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
+import static com.example.msexchange.exception.ErrorMessage.COIN_BALANCE_NOT_FOUND;
 import static com.example.msexchange.model.enums.PaymentStatus.BUY_COIN;
 import static com.example.msexchange.model.enums.PaymentStatus.SELL_COIN;
 
@@ -45,7 +47,8 @@ public class CoinBalanceService {
         var totalPrice = calculateTotalPrice(transactionRequest.getCoinName(), transactionRequest.getCoinQuantity());
         var user = userService.getUserEntity(transactionRequest.getUserId());
         var coinBalance = coinBalanceRepository.findByNameAndUser(transactionRequest.getCoinName(), user)
-                .map(coinBalanceEntity -> {
+                .map(coinBalanceEntity ->
+                        {
                             increaseCoinQuantity(coinBalanceEntity, transactionRequest.getCoinQuantity());
                             return coinBalanceEntity;
                         }
@@ -60,6 +63,9 @@ public class CoinBalanceService {
     public void decreaseCoinBalance(CoinTransactionRequest transactionRequest) {
         var user = userService.getUserEntity(transactionRequest.getUserId());
         var coinBalance = findCoinBalanceEntity(transactionRequest.getCoinName(), user);
+        if(coinBalance.getCoinQuantity().compareTo(transactionRequest.getCoinQuantity()) < 0){
+            throw new InsufficientBalanceException(ErrorMessage.INSUFFICIENT_BALANCE_EXCEPTION.getMessage(), 409);
+        }
         deductFromCoinBalance(coinBalance, transactionRequest.getCoinQuantity());
         var totalPrice = calculateTotalPrice(transactionRequest.getCoinName(), transactionRequest.getCoinQuantity());
         balanceService.increaseBalance(user, totalPrice);
@@ -84,7 +90,7 @@ public class CoinBalanceService {
     private CoinBalanceEntity findCoinBalanceEntity(String name, UserEntity user) {
         return coinBalanceRepository.findByNameAndUser(name, user)
                 .orElseThrow(
-                        () -> new NotFoundException(ErrorMessage.COIN_BALANCE_NOT_FOUND.getMessage(), 404)
+                        () -> new NotFoundException(COIN_BALANCE_NOT_FOUND.getMessage(), 404)
                 );
     }
 }

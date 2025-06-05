@@ -1,17 +1,14 @@
 package com.example.msexchange.controller;
 
-import com.example.msexchange.model.enums.Currency;
 import com.example.msexchange.model.repsone.CurrencyResponse;
 import com.example.msexchange.service.CurrencyService;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 
 import static lombok.AccessLevel.PRIVATE;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @RestController
 @RequiredArgsConstructor

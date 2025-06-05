@@ -47,7 +47,7 @@ public class BalanceService {
     public void convertBalanceCurrency(Long id, Currency targetCurrency){
         var balance = findById(id);
         var rate = currencyService.getExchangeRate(balance.getCurrency().name(), targetCurrency.name());
-        BigDecimal result = balance.getBalance().multiply(rate).setScale(9, HALF_UP);
+        BigDecimal result = balance.getBalance().multiply(rate);
         balance.setBalance(result);
         balance.setCurrency(targetCurrency);
         balanceRepository.save(balance);

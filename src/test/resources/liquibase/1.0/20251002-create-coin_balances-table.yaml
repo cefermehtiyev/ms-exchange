@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-test-coin-balances-table
+      author: Cefer Mehtiyev
+      changes:
+        - createTable:
+            tableName: coin_balances
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(128)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: coin_quantity
+                  type: NUMERIC(19,8)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+
+  - changeSet:
+      id: add-foreign-key-coin_balances-user
+      author: Cefer Mehtiyev
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: coin_balances
+            baseColumnNames: user_id
+            constraintName: fk_coin_balances_user_id
+            referencedTableName: users
+            referencedColumnNames: id

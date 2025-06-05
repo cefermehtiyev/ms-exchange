@@ -4,7 +4,6 @@ import com.example.msexchange.dao.entity.PaymentEntity;
 import com.example.msexchange.dao.entity.UserEntity;
 import com.example.msexchange.model.enums.Currency;
 import com.example.msexchange.model.enums.PaymentStatus;
-import com.example.msexchange.model.request.BalanceUpdateDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

@@ -14,7 +14,7 @@ public enum ErrorMessage {
     USER_NOT_FOUND("User not found"),
     UNAUTHORIZED_EXCEPTION("Username or password is incorrect"),
     BALANCE_NOT_FOUND("Balance not found"),
-    COIN_BALANCE_NOT_FOUND("Balance not found"),
+    COIN_BALANCE_NOT_FOUND("Coin Balance not found"),
     INSUFFICIENT_BALANCE_EXCEPTION("Insufficient Balance Exception");
 
 
