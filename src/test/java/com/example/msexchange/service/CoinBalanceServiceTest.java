@@ -42,6 +42,7 @@ public class CoinBalanceServiceTest {
 
     @Test
     public void topUpCoinBalance_NewBalance() {
+        //
         var coinTransactionRequest = new CoinTransactionRequest();
         coinTransactionRequest.setCoinName("Bitcoin");
         coinTransactionRequest.setCoinQuantity(BigDecimal.valueOf(1));
@@ -55,9 +56,12 @@ public class CoinBalanceServiceTest {
         userEntity.setCoinBalanceEntity(coinBalance);
         userEntity.setBalanceEntity(balanceEntity);
 
+        //when
         when(userService.getUserEntity(1L)).thenReturn(userEntity);
         when(coinService.getCoin(coinTransactionRequest.getCoinName())).thenReturn(coinResponse);
         when(coinBalanceRepository.findByNameAndUser(coinTransactionRequest.getCoinName(), userEntity)).thenReturn(Optional.empty());
+
+        // then
         coinBalanceService.topUpCoinBalance(coinTransactionRequest);
         verify(coinBalanceRepository, times(1)).save(coinBalance);
     }

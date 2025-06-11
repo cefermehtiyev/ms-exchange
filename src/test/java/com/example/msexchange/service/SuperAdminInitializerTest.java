@@ -22,11 +22,11 @@ public class SuperAdminInitializerTest {
         var userRequest = new UserRequest();
         userRequest.setUserName("admin");
         userRequest.setPassword("admin123");
+        userRequest.setEmail("admin@gmail.com");
         userRequest.setRole(ADMIN);
         when(userService.existsByUserName(userRequest.getUserName())).thenReturn(false);
         superAdminInitializer.run("SuperAdminInitializer");
         verify(userService, times(1)).registerUser(userRequest);
-
     }
 
     

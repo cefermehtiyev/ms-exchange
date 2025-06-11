@@ -19,5 +19,6 @@ public interface BalanceMapper {
     @Mapping(target = "updatedAt", ignore = true)
     BalanceEntity createBalanceEntity(UserEntity userEntity);
 
-    BalanceUpdateDto toBalanceUpdateDto(Long userId, BigDecimal amount);
+
+
 }

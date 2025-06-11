@@ -6,7 +6,10 @@ import com.example.msexchange.dao.repository.BalanceRepository;
 import com.example.msexchange.exception.ErrorMessage;
 import com.example.msexchange.exception.InsufficientBalanceException;
 import com.example.msexchange.exception.NotFoundException;
+import com.example.msexchange.kafka.producer.KafkaProducer;
+import com.example.msexchange.kafka.properties.UserPaymentTopicProperties;
 import com.example.msexchange.mapper.BalanceMapper;
+import com.example.msexchange.mapper.PaymentMapper;
 import com.example.msexchange.model.enums.Currency;
 import com.example.msexchange.model.enums.PaymentStatus;
 import com.example.msexchange.model.request.BalanceUpdateDto;
@@ -14,15 +17,20 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.messaging.support.GenericMessage;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.example.msexchange.model.enums.PaymentStatus.DEPOSIT;
 import static com.example.msexchange.model.enums.PaymentStatus.WITHDRAW;
 import static java.math.RoundingMode.HALF_UP;
 import static lombok.AccessLevel.PRIVATE;
+import static org.springframework.kafka.support.KafkaHeaders.TOPIC;
 
 @Service
 @FieldDefaults(level = PRIVATE, makeFinal = true)
@@ -42,6 +50,7 @@ public class BalanceService {
         this.balanceMapper = balanceMapper;
         this.paymentService = paymentService;
         this.currencyService = currencyService;
+
     }
 
     public void convertBalanceCurrency(Long id, Currency targetCurrency){

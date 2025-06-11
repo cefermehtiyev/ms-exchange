@@ -1,14 +1,51 @@
+#
+#server:
+# port: 8080
+#exchange:
+# api:
+#  key: ac4a30e3c88d185e89824bcc
+#coin:
+# api:
+#  key: 1c02e3d3-263c-46f4-8014-3a48e6701dd6
+#
+#spring:
+# application:
+#  name: ms-exchange
+# datasource:
+#  url: jdbc:oracle:thin:@localhost:1522:xe
+#  username: EXCHANGE
+#  password: j@vacefer2005
+#  driver-class-name: oracle.jdbc.OracleDriver
+# jpa:
+#  hibernate:
+#   ddl-auto: validate
+# liquibase:
+#  change-log: classpath:liquibase/changelog-master.yaml
+#  enabled: true
+#
+#kafka:
+# host: localhost:9094
+# topics:
+#  user-created:
+#   topicName: ${spring.application.name}.user_created.0
+#   partitionCount: 1
+#   replicationFactor: 1
+#   retentionInMs: 604800000
 
 server:
  port: 8080
+
 exchange:
  api:
   key: ac4a30e3c88d185e89824bcc
+
 coin:
  api:
   key: 1c02e3d3-263c-46f4-8014-3a48e6701dd6
 
 spring:
+ application:
+  name: ms-exchange
  datasource:
   url: jdbc:oracle:thin:@localhost:1521:xe
   username: EXCHANGE
@@ -20,6 +57,22 @@ spring:
  liquibase:
   change-log: classpath:liquibase/changelog-master.yaml
   enabled: true
+
+kafka:
+ host: localhost:9092
+ topics:
+  user-payment:
+   topicName:  ${spring.application.name}.user_payment.0
+   partition-count: 1
+   replication-factor: 1
+   retentionInMs: 604800000
+  user-created:
+   topicName: ${spring.application.name}.user_created.0
+   partitionCount: 1
+   replicationFactor: 1
+   retentionInMs: 604800000
+
+
 
 
 

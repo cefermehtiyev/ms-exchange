@@ -24,6 +24,13 @@ repositories {
 }
 
 dependencies {
+    // Kafka
+    implementation 'org.springframework.kafka:spring-kafka'
+
+    // Configuration processor
+    implementation 'org.springframework.boot:spring-boot-configuration-processor'
+
+
     // Spring Boot
     implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "org.springframework.boot:spring-boot-starter-validation"
@@ -73,6 +80,9 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:5.12.0'
     testImplementation 'org.mockito:mockito-junit-jupiter:5.12.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+
 
     // ---------------------------
     testImplementation "org.springframework.boot:spring-boot-starter-test"

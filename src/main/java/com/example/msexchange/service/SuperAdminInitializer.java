@@ -20,9 +20,8 @@ public class SuperAdminInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (!userService.existsByUserName("admin")) {
-            userService.registerUser(new UserRequest("admin", "admin123", UserRole.ADMIN));
+            userService.registerUser(new UserRequest("admin", "admin123", UserRole.ADMIN,"admin@gmail.com"));
         }
     }
-
 
 }

@@ -19,4 +19,6 @@ public class UserRequest {
     String password;
     @NotNull(message = FIELD_CANNOT_BE_NULL)
     UserRole role;
+    @NotNull(message = FIELD_CANNOT_BE_NULL)
+    String email;
 }

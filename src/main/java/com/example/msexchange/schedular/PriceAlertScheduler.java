@@ -29,8 +29,8 @@ public class PriceAlertScheduler {
     CoinService coinService;
     PriceAlertRepository priceAlertRepository;
 
-    @Scheduled(cron = "1 * * * * *")
-    @SchedulerLock(name = "processOutboxEntries", lockAtLeastFor = "PT1M", lockAtMostFor = "PT3M")
+    @Scheduled(cron = "* 1 * * * *")
+    @SchedulerLock(name = "checkPriceAlerts", lockAtLeastFor = "PT1M", lockAtMostFor = "PT3M")
     @Transactional
     public void checkPriceAlerts(){
         priceAlertService.getAllUnProcessedAlerts().forEach(

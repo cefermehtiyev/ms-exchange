@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: create users table
+      id: create-payment_outbox table
       author: Cefer Mehtiyev
       changes:
         - createTable:
-            tableName: users
+            tableName: payment_outbox_messages
             columns:
               - column:
                   name: id
@@ -14,23 +14,23 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: user_name
-                  type: VARCHAR(64)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: PASSWORD
-                  type: VARCHAR(64)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: role
-                  type: VARCHAR(64)
+                  name: user_id
+                  type: BIGINT
                   constraints:
                     nullable: false
               - column:
                   name: email
-                  type: VARCHAR(64)
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: payment_status
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amount
+                  type: DECIMAL(19,2)
                   constraints:
                     nullable: false
               - column:
@@ -39,8 +39,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: updated_at
-                  type: TIMESTAMP
+                  name: executed
+                  type: BOOLEAN
                   constraints:
                     nullable: false
-

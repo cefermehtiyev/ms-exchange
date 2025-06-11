@@ -32,6 +32,7 @@ public class UserEntity {
     Long id;
     String userName;
     String password;
+    String email;
     @Enumerated(STRING)
     UserRole role;
     @CreationTimestamp
